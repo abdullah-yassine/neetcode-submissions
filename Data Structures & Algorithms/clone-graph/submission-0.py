@@ -1,0 +1,24 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+
+class Solution:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        if not node:
+            return None
+        hashmap = {} # old : new
+        q = deque()
+        q.append(node) # bfs
+        hashmap[node] = Node(node.val)
+        while q:
+            pop = q.pop()
+            for neighbor in pop.neighbors:
+                if neighbor not in hashmap:
+                    hashmap[neighbor] = Node(neighbor.val)
+                    q.append(neighbor)
+                hashmap[pop].neighbors.append(hashmap[neighbor])
+        return hashmap[node]
